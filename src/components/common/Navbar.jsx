@@ -18,7 +18,9 @@ import {
   MessageSquare,
   ShieldCheck,
   Building2,
-  CloudRain
+  CloudRain,
+  Bot,
+  Sparkles
 } from "lucide-react";
 
 export const Navbar = () => {
@@ -138,6 +140,14 @@ export const Navbar = () => {
                   <CloudRain className="w-4 h-4 text-emerald-600" />
                   {t("rainForecast", "Rain Forecast")}
                 </NavLink>
+                <NavLink to="/farmer/ai-assistant" className={navItemClass}>
+                  <Bot className="w-4 h-4 text-emerald-600" />
+                  <span>{t("kisanAI", "Kisan AI")}</span>
+                  <span className="px-1.5 py-0.2 text-[9px] font-bold bg-amber-100 text-amber-800 rounded flex items-center gap-0.5">
+                    <Sparkles className="w-2.5 h-2.5 text-amber-600" />
+                    Voice
+                  </span>
+                </NavLink>
               </>
             ) : role === "admin" ? (
               // ADMIN NAVIGATION
@@ -177,6 +187,14 @@ export const Navbar = () => {
                 <NavLink to="/weather" className={navItemClass}>
                   <CloudRain className="w-4 h-4 text-emerald-600" />
                   {t("rainForecast", "Rain Forecast")}
+                </NavLink>
+                <NavLink to="/ai-assistant" className={navItemClass}>
+                  <Bot className="w-4 h-4 text-emerald-600" />
+                  <span>{t("kisanAI", "Kisan AI")}</span>
+                  <span className="px-1.5 py-0.2 text-[9px] font-bold bg-amber-100 text-amber-800 rounded flex items-center gap-0.5">
+                    <Sparkles className="w-2.5 h-2.5 text-amber-600" />
+                    Voice
+                  </span>
                 </NavLink>
                 <NavLink to="/international-demand" className={navItemClass}>
                   <Globe className="w-4 h-4 text-sky-700" />
@@ -373,6 +391,14 @@ export const Navbar = () => {
                 <CloudRain className="w-4 h-4 text-emerald-600" />
                 {t("rainForecast", "Rain Forecast")}
               </NavLink>
+              <NavLink
+                to="/farmer/ai-assistant"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 text-emerald-800 font-bold flex items-center gap-2"
+              >
+                <Bot className="w-4 h-4 text-emerald-600" />
+                <span>{t("kisanAI", "Kisan AI Voice Assistant")}</span>
+              </NavLink>
             </>
           ) : (
             // Mobile Public Links
@@ -406,6 +432,14 @@ export const Navbar = () => {
               >
                 <CloudRain className="w-4 h-4 text-emerald-600" />
                 {t("rainForecast", "Rain Forecast")}
+              </NavLink>
+              <NavLink
+                to="/ai-assistant"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 text-emerald-800 font-bold flex items-center gap-2"
+              >
+                <Bot className="w-4 h-4 text-emerald-600" />
+                <span>{t("kisanAI", "Kisan AI Voice Assistant")}</span>
               </NavLink>
               <NavLink
                 to="/international-demand"

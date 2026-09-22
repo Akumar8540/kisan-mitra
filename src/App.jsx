@@ -36,6 +36,10 @@ import { EditListing } from "./pages/farmer/EditListing";
 import { InquiriesReceived } from "./pages/farmer/InquiriesReceived";
 import { Reports } from "./pages/farmer/Reports";
 import { WeatherForecast } from "./pages/farmer/WeatherForecast";
+import { AIAssistantPage } from "./pages/farmer/AIAssistantPage";
+
+// AI Assistant
+import { KisanAIAssistant } from "./components/ai/KisanAIAssistant";
 
 // Buyer Pages
 import { BuyerDashboard } from "./pages/buyer/BuyerDashboard";
@@ -72,6 +76,7 @@ function App() {
               <Route path="/mandis/:id" element={<MandiDetail />} />
               <Route path="/fertilizers" element={<FertilizerGuide />} />
               <Route path="/weather" element={<WeatherForecast />} />
+              <Route path="/ai-assistant" element={<AIAssistantPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Route>
@@ -89,6 +94,7 @@ function App() {
               <Route path="dashboard" element={<FarmerDashboard />} />
               <Route path="profile" element={<FarmProfile />} />
               <Route path="advisor" element={<CropAdvisor />} />
+              <Route path="ai-assistant" element={<AIAssistantPage />} />
               <Route path="input-calculator" element={<InputCalculator />} />
               <Route path="calendar" element={<FarmingCalendar />} />
               <Route path="weather" element={<WeatherForecast />} />
@@ -138,6 +144,9 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
+
+          {/* Floating Multimodal Voice-Enabled Kisan AI Assistant */}
+          <KisanAIAssistant />
           </NotificationProvider>
         </AuthProvider>
       </LanguageProvider>

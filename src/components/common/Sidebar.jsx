@@ -21,7 +21,8 @@ import {
   TrendingUp,
   Building2,
   ShieldCheck,
-  CloudRain
+  CloudRain,
+  Bot
 } from "lucide-react";
 
 export const Sidebar = () => {
@@ -30,6 +31,7 @@ export const Sidebar = () => {
 
   const farmerLinks = [
     { to: "/farmer/dashboard", label: t("dashboard", "Dashboard"), icon: LayoutDashboard },
+    { to: "/farmer/ai-assistant", label: t("kisanAI", "Kisan AI Assistant"), icon: Bot },
     { to: "/farmer/weather", label: t("rainForecast", "Rain & Weather"), icon: CloudRain },
     { to: "/farmer/profile", label: t("farmProfile", "Farm Profile"), icon: User },
     { to: "/farmer/advisor", label: t("cropAdvisor", "Crop Advisor"), icon: Compass },

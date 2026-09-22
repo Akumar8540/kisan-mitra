@@ -3,11 +3,13 @@ import { Outlet } from "react-router-dom";
 import { Navbar } from "../components/common/Navbar";
 import { Sidebar } from "../components/common/Sidebar";
 import { DemoBanner } from "../components/common/DemoBanner";
+import { LiveMarketTicker } from "../components/common/LiveMarketTicker";
 
 export const DashboardLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-stone-100 text-stone-900">
       <DemoBanner />
+      <LiveMarketTicker />
       <Navbar />
       <div className="flex-1 max-w-7xl w-full mx-auto flex flex-col md:flex-row">
         <div className="hidden md:block">

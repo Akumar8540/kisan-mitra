@@ -63,7 +63,8 @@ export const translations = {
     buyerView: "Buyer View",
     adminView: "Admin Console",
     rainForecast: "Rain & Weather",
-    weatherAdvisory: "Agro Advisory"
+    weatherAdvisory: "Agro Advisory",
+    kisanAI: "Kisan AI Assistant"
   },
   hi: {
     brandName: "किसान मित्र",
@@ -113,7 +114,8 @@ export const translations = {
     buyerView: "खरीदार दृश्य",
     adminView: "व्यवस्थापक कंसोल",
     rainForecast: "बारिश व मौसम",
-    weatherAdvisory: "कृषि मौसम सलाह"
+    weatherAdvisory: "कृषि मौसम सलाह",
+    kisanAI: "किसान AI सहायक"
   },
   mr: {
     brandName: "किसान मित्र",
@@ -163,7 +165,8 @@ export const translations = {
     buyerView: "व्यापारी दृश्य",
     adminView: "प्रशासक दृश्य",
     rainForecast: "पाऊस व हवामान",
-    weatherAdvisory: "कृषी हवामान सल्ला"
+    weatherAdvisory: "कृषी हवामान सल्ला",
+    kisanAI: "किसान AI सल्लागार"
   },
   gu: {
     brandName: "કિસાન મિત્ર",
@@ -213,7 +216,8 @@ export const translations = {
     buyerView: "ખરીદનાર વ્યુ",
     adminView: "ઍડમિન કન્સોલ",
     rainForecast: "વરસાદ અને હવામાન",
-    weatherAdvisory: "કૃષિ હવામાન સલાહ"
+    weatherAdvisory: "કૃષિ હવામાન સલાહ",
+    kisanAI: "કિસાન AI સહાયક"
   },
   pa: {
     brandName: "ਕਿਸਾਨ ਮਿੱਤਰ",
@@ -263,7 +267,8 @@ export const translations = {
     buyerView: "ਖਰੀਦਦਾਰ ਦ੍ਰਿਸ਼",
     adminView: "ਐਡਮਿਨ ਕੰਸੋਲ",
     rainForecast: "ਮੀਂਹ ਅਤੇ ਮੌਸਮ",
-    weatherAdvisory: "ਖੇਤੀ ਮੌਸਮ ਸਲਾਹ"
+    weatherAdvisory: "ਖੇਤੀ ਮੌਸਮ ਸਲਾਹ",
+    kisanAI: "ਕਿਸਾਨ AI ਸਹਾਇਕ"
   },
   te: {
     brandName: "కిసాన్ మిత్ర",
@@ -313,7 +318,8 @@ export const translations = {
     buyerView: "కొనుగోలుదారు వీక్షణ",
     adminView: "అడ్మిన్ కన్సోల్",
     rainForecast: "వర్షం & వాతావరణం",
-    weatherAdvisory: "వ్యవసాయ సలహా"
+    weatherAdvisory: "వ్యవసాయ సలహా",
+    kisanAI: "కిసాన్ AI సహాయకుడు"
   },
   ta: {
     brandName: "கிசான் மித்ரா",
@@ -363,7 +369,8 @@ export const translations = {
     buyerView: "வாங்குபவர் பார்வை",
     adminView: "நிர்வாகி கன்சோல்",
     rainForecast: "மழை & வானிலை",
-    weatherAdvisory: "வேளாண் வானிலை ஆலோசனை"
+    weatherAdvisory: "வேளாண் வானிலை ஆலோசனை",
+    kisanAI: "கிசான் AI உதவியாளர்"
   },
   kn: {
     brandName: "ಕಿಸಾನ್ ಮಿತ್ರ",
@@ -413,7 +420,8 @@ export const translations = {
     buyerView: "ಖರೀದಿದಾರ ನೋಟ",
     adminView: "ನಿರ್ವಾಹಕ ಕನ್ಸೋಲ್",
     rainForecast: "ಮಳೆ ಮತ್ತು ಹವಾಮಾನ",
-    weatherAdvisory: "ಕೃಷಿ ಹವಾಮಾನ ಸಲಹೆ"
+    weatherAdvisory: "ಕೃಷಿ ಹವಾಮಾನ ಸಲಹೆ",
+    kisanAI: "ಕಿಸಾನ್ AI ಸಹಾಯಕ"
   },
   bn: {
     brandName: "কিসান মিত্র",
@@ -463,6 +471,7 @@ export const translations = {
     buyerView: "ক্রেতা ভিউ",
     adminView: "অ্যাডমিন কনসোল",
     rainForecast: "বৃষ্টি ও আবহাওয়া",
-    weatherAdvisory: "কৃষি আবহাওয়া পরামর্শ"
+    weatherAdvisory: "কৃষি আবহাওয়া পরামর্শ",
+    kisanAI: "কিসান AI সহকারী"
   }
 };

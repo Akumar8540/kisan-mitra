@@ -47,6 +47,19 @@ export const InternationalDemand = () => {
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [currencyMode, setCurrencyMode] = useState("both"); // "usd" | "inr" | "both"
   const [showReadinessTool, setShowReadinessTool] = useState(false);
+  const [liveUsdInrRate, setLiveUsdInrRate] = useState(86.8);
+
+  // Fetch real-time live forex exchange rates (USD -> INR)
+  useEffect(() => {
+    fetch("https://open.er-api.com/v6/latest/USD")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.rates?.INR) {
+          setLiveUsdInrRate(Number(data.rates.INR.toFixed(2)));
+        }
+      })
+      .catch((err) => console.warn("Forex API notice:", err));
+  }, []);
 
   // Self-assessment readiness checklist state
   const [readinessChecklist, setReadinessChecklist] = useState({
@@ -368,6 +381,13 @@ export const InternationalDemand = () => {
               >
                 INR (₹)
               </button>
+            </div>
+
+            {/* Live Forex Rate Badge */}
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-sky-50 border border-sky-200 text-sky-900 text-[11px] font-bold shrink-0">
+              <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+              <span>1 USD = ₹{liveUsdInrRate} INR</span>
+              <span className="text-[9px] text-sky-600 uppercase tracking-wider font-extrabold bg-sky-100 px-1 rounded">Live API</span>
             </div>
           </div>
         </div>
