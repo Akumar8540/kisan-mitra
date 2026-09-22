@@ -25,7 +25,7 @@ import {
 
 export const Navbar = () => {
   const { currentUser, logout, role } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -65,14 +65,17 @@ export const Navbar = () => {
               className={`w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-md transition group-hover:scale-105 ${
                 role === "buyer"
                   ? "bg-gradient-to-br from-sky-700 to-indigo-800 shadow-sky-800/20"
-                  : "bg-gradient-to-br from-emerald-600 to-green-700 shadow-emerald-700/20"
+                  : "bg-gradient-to-br from-emerald-600 to-teal-700 shadow-emerald-700/20"
               }`}
             >
               {role === "buyer" ? <Building2 className="w-5 h-5" /> : <Sprout className="w-6 h-6" />}
             </div>
             <div>
-              <span className="text-xl font-black text-stone-900 tracking-tight flex items-center gap-1">
-                {t("brandName", "Kisan Mitra")}
+              <span className="text-xl font-black text-stone-900 tracking-tight flex items-center gap-1.5">
+                <span>{t("brandName", "Kisan Mitra")}</span>
+                <span className="px-1.5 py-0.2 rounded-md text-[10px] font-black bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xs">
+                  AI
+                </span>
               </span>
               <span className="block text-[10px] text-stone-500 uppercase tracking-widest font-semibold">
                 {role === "buyer"
@@ -140,11 +143,19 @@ export const Navbar = () => {
                   <CloudRain className="w-4 h-4 text-emerald-600" />
                   {t("rainForecast", "Rain Forecast")}
                 </NavLink>
-                <NavLink to="/farmer/ai-assistant" className={navItemClass}>
-                  <Bot className="w-4 h-4 text-emerald-600" />
-                  <span>{t("kisanAI", "Kisan AI")}</span>
-                  <span className="px-1.5 py-0.2 text-[9px] font-bold bg-amber-100 text-amber-800 rounded flex items-center gap-0.5">
-                    <Sparkles className="w-2.5 h-2.5 text-amber-600" />
+                <NavLink
+                  to="/farmer/ai-assistant"
+                  className={({ isActive }) =>
+                    `text-xs sm:text-sm font-black transition flex items-center gap-1.5 py-1.5 px-3 rounded-xl shadow-sm border ${
+                      isActive
+                        ? "bg-emerald-800 text-white border-emerald-900 shadow-md shadow-emerald-800/20 ring-2 ring-emerald-500/40"
+                        : "bg-gradient-to-r from-emerald-600 to-teal-700 text-white hover:from-emerald-700 hover:to-teal-800 border-emerald-500/50"
+                    }`
+                  }
+                >
+                  <Bot className="w-4 h-4 text-amber-300 animate-pulse" />
+                  <span>{language === "hi" ? "किसान मित्र AI" : "Kisan Mitra AI"}</span>
+                  <span className="px-1.5 py-0.2 text-[9px] font-extrabold bg-amber-400 text-stone-950 rounded uppercase tracking-wider">
                     Voice
                   </span>
                 </NavLink>
@@ -188,11 +199,19 @@ export const Navbar = () => {
                   <CloudRain className="w-4 h-4 text-emerald-600" />
                   {t("rainForecast", "Rain Forecast")}
                 </NavLink>
-                <NavLink to="/ai-assistant" className={navItemClass}>
-                  <Bot className="w-4 h-4 text-emerald-600" />
-                  <span>{t("kisanAI", "Kisan AI")}</span>
-                  <span className="px-1.5 py-0.2 text-[9px] font-bold bg-amber-100 text-amber-800 rounded flex items-center gap-0.5">
-                    <Sparkles className="w-2.5 h-2.5 text-amber-600" />
+                <NavLink
+                  to="/ai-assistant"
+                  className={({ isActive }) =>
+                    `text-xs sm:text-sm font-black transition flex items-center gap-1.5 py-1.5 px-3.5 rounded-xl shadow-sm border ${
+                      isActive
+                        ? "bg-emerald-800 text-white border-emerald-900 shadow-md shadow-emerald-800/20 ring-2 ring-emerald-500/40"
+                        : "bg-gradient-to-r from-emerald-600 to-teal-700 text-white hover:from-emerald-700 hover:to-teal-800 border-emerald-500/50"
+                    }`
+                  }
+                >
+                  <Bot className="w-4 h-4 text-amber-300 animate-pulse" />
+                  <span>{language === "hi" ? "किसान मित्र AI" : "Kisan Mitra AI"}</span>
+                  <span className="px-1.5 py-0.2 text-[9px] font-extrabold bg-amber-400 text-stone-950 rounded uppercase tracking-wider">
                     Voice
                   </span>
                 </NavLink>
@@ -394,10 +413,15 @@ export const Navbar = () => {
               <NavLink
                 to="/farmer/ai-assistant"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-emerald-800 font-bold flex items-center gap-2"
+                className="py-2.5 px-3 rounded-xl bg-emerald-50 text-emerald-900 font-bold flex items-center justify-between border border-emerald-200"
               >
-                <Bot className="w-4 h-4 text-emerald-600" />
-                <span>{t("kisanAI", "Kisan AI Voice Assistant")}</span>
+                <div className="flex items-center gap-2">
+                  <Bot className="w-5 h-5 text-emerald-700" />
+                  <span>{language === "hi" ? "किसान मित्र AI वॉइस सहायक" : "Kisan Mitra AI Voice Assistant"}</span>
+                </div>
+                <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-400 text-stone-900">
+                  Voice
+                </span>
               </NavLink>
             </>
           ) : (
@@ -436,10 +460,15 @@ export const Navbar = () => {
               <NavLink
                 to="/ai-assistant"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-emerald-800 font-bold flex items-center gap-2"
+                className="py-2.5 px-3 my-1 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-bold flex items-center justify-between shadow-sm"
               >
-                <Bot className="w-4 h-4 text-emerald-600" />
-                <span>{t("kisanAI", "Kisan AI Voice Assistant")}</span>
+                <div className="flex items-center gap-2">
+                  <Bot className="w-5 h-5 text-amber-300 animate-pulse" />
+                  <span>{language === "hi" ? "किसान मित्र AI वॉइस सहायक" : "Kisan Mitra AI Voice Assistant"}</span>
+                </div>
+                <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-400 text-stone-950">
+                  Voice
+                </span>
               </NavLink>
               <NavLink
                 to="/international-demand"

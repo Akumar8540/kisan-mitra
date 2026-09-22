@@ -64,7 +64,7 @@ export const translations = {
     adminView: "Admin Console",
     rainForecast: "Rain & Weather",
     weatherAdvisory: "Agro Advisory",
-    kisanAI: "Kisan AI Assistant"
+    kisanAI: "Kisan Mitra AI Assistant"
   },
   hi: {
     brandName: "किसान मित्र",
@@ -115,7 +115,7 @@ export const translations = {
     adminView: "व्यवस्थापक कंसोल",
     rainForecast: "बारिश व मौसम",
     weatherAdvisory: "कृषि मौसम सलाह",
-    kisanAI: "किसान AI सहायक"
+    kisanAI: "किसान मित्र AI सहायक"
   },
   mr: {
     brandName: "किसान मित्र",
@@ -128,45 +128,45 @@ export const translations = {
     mandiLiveRates: "थेट मंडी दर",
     fertilizers: "खते व पोषण",
     globalDemands: "आंतरराष्ट्रीय निर्यात मागणी",
-    howItWorks: "प्रक्रिया कशी चालते",
-    about: "माहिती",
-    signIn: "साइन इन",
-    register: "नोंदणी करा",
-    logout: "बाहेर पडा",
+    howItWorks: "हे कसे कार्य करते",
+    about: "आमच्याबद्दल",
+    signIn: "लॉगिन करा",
+    register: "सुरू करा",
+    logout: "लॉग आउट",
     dashboard: "डॅशबोर्ड",
     farmerPortal: "शेतकरी पोर्टल",
     buyerPortal: "व्यापारी पोर्टल",
     adminPanel: "प्रशासक पॅनेल",
     myInquiries: "माझी चौकशी",
-    farmProfile: "शेत माहिती",
+    farmProfile: "शेत प्रोफाईल",
     cropAdvisor: "पीक सल्लागार",
-    inputCalculator: "बियाणे व खत गणक",
+    inputCalculator: "बियाणे आणि खत कॅल्क्युलेटर",
     seasonalCalendar: "हंगामी कॅलेंडर",
-    myListings: "माझी विक्री यादी",
-    reports: "अहवाल व डेटा",
+    myListings: "माझी पीक यादी",
+    reports: "अहवाल व CSV",
     findCrop: "योग्य पीक निवडा",
-    exploreMarketplace: "बाजारपेठ पहा",
-    submitQuotation: "दर पत्रक सादर करा",
-    reviewDossier: "सरकारी कागदपत्रे तपासा",
-    minPrice: "किमान दर",
-    modalPrice: "सरासरी (मोडल) दर",
-    maxPrice: "कमाल दर",
-    arrivalVolume: "आवक प्रमाण",
-    tradeDate: "व्यापार तारीख",
+    exploreMarketplace: "बाजारपेठ एक्सप्लोर करा",
+    submitQuotation: "कोटेशन पाठवा",
+    reviewDossier: "सरकारी दस्तऐवज तपासा",
+    minPrice: "किमान भाव",
+    modalPrice: "सरासरी भाव",
+    maxPrice: "कमाल भाव",
+    arrivalVolume: "आवक",
+    tradeDate: "तारीख",
     selectState: "राज्य निवडा",
     selectCrop: "पीक निवडा",
     allStates: "सर्व राज्ये",
-    exportFobPrice: "निर्यात FOB दर",
-    domesticApmc: "स्थानिक APMC दर",
+    exportFobPrice: "निर्यात FOB भाव",
+    domesticApmc: "स्थानिक APMC भाव",
     exportRealization: "निर्यात नफा",
     liveRegistry: "थेट व्यापार नोंदणी",
-    govtVerified: "शासकीय प्रमाणित मागणी",
+    govtVerified: "सरकारी प्रमाणित मागणी",
     farmerView: "शेतकरी दृश्य",
     buyerView: "व्यापारी दृश्य",
     adminView: "प्रशासक दृश्य",
     rainForecast: "पाऊस व हवामान",
     weatherAdvisory: "कृषी हवामान सल्ला",
-    kisanAI: "किसान AI सल्लागार"
+    kisanAI: "किसान मित्र AI सल्लागार"
   },
   gu: {
     brandName: "કિસાન મિત્ર",
@@ -217,7 +217,7 @@ export const translations = {
     adminView: "ઍડમિન કન્સોલ",
     rainForecast: "વરસાદ અને હવામાન",
     weatherAdvisory: "કૃષિ હવામાન સલાહ",
-    kisanAI: "કિસાન AI સહાયક"
+    kisanAI: "કિસાન મિત્ર AI સહાયક"
   },
   pa: {
     brandName: "ਕਿਸਾਨ ਮਿੱਤਰ",
@@ -268,7 +268,7 @@ export const translations = {
     adminView: "ਐਡਮਿਨ ਕੰਸੋਲ",
     rainForecast: "ਮੀਂਹ ਅਤੇ ਮੌਸਮ",
     weatherAdvisory: "ਖੇਤੀ ਮੌਸਮ ਸਲਾਹ",
-    kisanAI: "ਕਿਸਾਨ AI ਸਹਾਇਕ"
+    kisanAI: "ਕਿਸਾਨ ਮਿੱਤਰ AI ਸਹਾਇਕ"
   },
   te: {
     brandName: "కిసాన్ మిత్ర",
@@ -300,7 +300,7 @@ export const translations = {
     findCrop: "సరైన పంటను ఎంచుకోండి",
     exploreMarketplace: "మార్కెట్‌ను అన్వేషించండి",
     submitQuotation: "కొటేషన్ సమర్పించండి",
-    reviewDossier: "ప్రభుత్వ పత్రాలను సమీక్షించండి",
+    reviewDossier: "ప్రభుత్వ పత్రాలను సమీಕ್ಷించండి",
     minPrice: "కనిష్ట ధర",
     modalPrice: "సగటు (మోడల్) ధర",
     maxPrice: "గరిష్ట ధర",
@@ -319,7 +319,7 @@ export const translations = {
     adminView: "అడ్మిన్ కన్సోల్",
     rainForecast: "వర్షం & వాతావరణం",
     weatherAdvisory: "వ్యవసాయ సలహా",
-    kisanAI: "కిసాన్ AI సహాయకుడు"
+    kisanAI: "కిసాన్ మిత్ర AI సహాయకుడు"
   },
   ta: {
     brandName: "கிசான் மித்ரா",
@@ -370,7 +370,7 @@ export const translations = {
     adminView: "நிர்வாகி கன்சோல்",
     rainForecast: "மழை & வானிலை",
     weatherAdvisory: "வேளாண் வானிலை ஆலோசனை",
-    kisanAI: "கிசான் AI உதவியாளர்"
+    kisanAI: "கிசான் மித்ரா AI உதவியாளர்"
   },
   kn: {
     brandName: "ಕಿಸಾನ್ ಮಿತ್ರ",
@@ -421,7 +421,7 @@ export const translations = {
     adminView: "ನಿರ್ವಾಹಕ ಕನ್ಸೋಲ್",
     rainForecast: "ಮಳೆ ಮತ್ತು ಹವಾಮಾನ",
     weatherAdvisory: "ಕೃಷಿ ಹವಾಮಾನ ಸಲಹೆ",
-    kisanAI: "ಕಿಸಾನ್ AI ಸಹಾಯಕ"
+    kisanAI: "ಕಿಸಾನ್ ಮಿತ್ರ AI ಸಹಾಯಕ"
   },
   bn: {
     brandName: "কিসান মিত্র",
@@ -472,6 +472,6 @@ export const translations = {
     adminView: "অ্যাডমিন কনসোল",
     rainForecast: "বৃষ্টি ও আবহাওয়া",
     weatherAdvisory: "কৃষি আবহাওয়া পরামর্শ",
-    kisanAI: "কিসান AI সহকারী"
+    kisanAI: "কিসান মিত্র AI সহকারী"
   }
 };

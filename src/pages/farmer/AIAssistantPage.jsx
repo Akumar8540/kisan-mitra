@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import { useAuth } from "../../context/AuthContext";
 import { aiService } from "../../services/aiService";
@@ -50,10 +50,20 @@ export const AIAssistantPage = () => {
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
 
-  // Available districts for context switching
   const districts = [
     "Nashik", "Jaipur", "Indore", "Guntur", "Kolar", "Agra", "Kanpur", "Unjha", "Pune", "Solapur", "Ludhiana"
   ];
+
+  const [searchParams] = useSearchParams();
+  const initialPromptHandled = useRef(false);
+
+  useEffect(() => {
+    const q = searchParams.get("prompt");
+    if (q && q.trim() && !initialPromptHandled.current) {
+      initialPromptHandled.current = true;
+      handleSend(q);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     // Check Web Speech Recognition

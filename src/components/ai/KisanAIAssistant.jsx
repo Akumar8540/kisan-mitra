@@ -270,32 +270,45 @@ export const KisanAIAssistant = () => {
 
   return (
     <>
-      {/* Floating Action Button (Always Visible) */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+      {/* Floating Action Launcher (Always Prominently Visible) */}
+      <div className="fixed bottom-5 right-4 sm:right-6 z-[9999] flex flex-col items-end pointer-events-auto">
         {!isOpen && (
-          <div className="mb-2 mr-1 hidden sm:flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-2xl shadow-lg border border-emerald-200 text-xs font-bold text-emerald-950 animate-bounce">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-spin" />
+          <div className="mb-2 hidden sm:flex items-center gap-2 bg-stone-900/90 backdrop-blur-sm text-white px-3.5 py-1.5 rounded-2xl shadow-xl border border-emerald-500/40 text-xs font-bold animate-bounce">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" />
             <span>
               {language === "hi"
-                ? "किसान AI से बोलें या पूछें"
-                : "Ask or Speak to Kisan AI"}
+                ? "किसान मित्र AI से बोलकर या लिखकर पूछें"
+                : "Ask or Speak to Kisan Mitra AI"}
             </span>
           </div>
         )}
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle Kisan AI Assistant"
-          className="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-700 via-emerald-600 to-teal-500 text-white shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 ring-4 ring-emerald-400/30 relative"
+          aria-label="Toggle Kisan Mitra AI Assistant"
+          className={`group transition-all duration-300 flex items-center gap-2.5 shadow-2xl ring-4 ring-emerald-500/30 ${
+            isOpen
+              ? "w-12 h-12 rounded-full bg-stone-900 text-white hover:bg-stone-800 justify-center"
+              : "px-4 py-2.5 rounded-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white hover:scale-105 active:scale-95"
+          }`}
         >
           {isOpen ? (
-            <X className="w-6 h-6 text-white" />
+            <X className="w-5 h-5 text-white" />
           ) : (
             <>
-              <Bot className="w-7 h-7 text-white" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-400 rounded-full border-2 border-white flex items-center justify-center">
-                <span className="w-2 h-2 bg-amber-600 rounded-full animate-ping"></span>
-              </span>
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                <Bot className="w-5 h-5 text-amber-300" />
+              </div>
+              <div className="text-left hidden xs:block sm:block">
+                <div className="text-xs font-black tracking-tight leading-tight flex items-center gap-1.5">
+                  <span>{language === "hi" ? "किसान मित्र AI" : "Kisan Mitra AI"}</span>
+                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                </div>
+                <div className="text-[10px] text-emerald-100 font-medium">
+                  {language === "hi" ? "बोलकर पूछें 🎤" : "Voice & Chat 🎤"}
+                </div>
+              </div>
+              <span className="xs:hidden sm:hidden text-xs font-black">AI</span>
             </>
           )}
         </button>
@@ -304,10 +317,10 @@ export const KisanAIAssistant = () => {
       {/* Floating AI Chat Window Modal */}
       {isOpen && (
         <div
-          className={`fixed bg-white shadow-2xl border border-stone-200 z-50 flex flex-col overflow-hidden transition-all duration-300 ${
+          className={`fixed bg-white shadow-2xl border border-stone-200 z-[9999] flex flex-col overflow-hidden transition-all duration-300 ${
             isFullscreen
               ? "inset-2 sm:inset-6 rounded-3xl"
-              : "bottom-24 right-4 sm:right-6 w-[94vw] sm:w-[440px] h-[610px] max-h-[85vh] rounded-3xl"
+              : "bottom-20 sm:bottom-24 right-2 sm:right-6 w-[calc(100vw-1rem)] sm:w-[460px] h-[78vh] max-h-[640px] rounded-3xl"
           }`}
         >
           {/* Header */}
@@ -383,7 +396,7 @@ export const KisanAIAssistant = () => {
               onClick={() => setActiveTab("chat")}
               className={`flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 ${
                 activeTab === "chat"
-                  ? "bg-white text-emerald-800 shadow-xs"
+                  ? "bg-white text-emerald-800 shadow-sm"
                   : "text-stone-600 hover:text-stone-900"
               }`}
             >
@@ -394,7 +407,7 @@ export const KisanAIAssistant = () => {
               onClick={() => setActiveTab("doctor")}
               className={`flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 ${
                 activeTab === "doctor"
-                  ? "bg-white text-emerald-800 shadow-xs"
+                  ? "bg-white text-emerald-800 shadow-sm"
                   : "text-stone-600 hover:text-stone-900"
               }`}
             >
@@ -428,16 +441,16 @@ export const KisanAIAssistant = () => {
                     }`}
                   >
                     {msg.sender === "ai" && (
-                      <div className="w-7 h-7 rounded-xl bg-emerald-700 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-1 shadow-xs">
+                      <div className="w-7 h-7 rounded-xl bg-emerald-700 text-white flex items-center justify-center shrink-0 text-xs font-bold mt-1 shadow-sm">
                         <Bot className="w-4 h-4" />
                       </div>
                     )}
 
                     <div
-                      className={`max-w-[85%] rounded-2xl p-3.5 text-xs leading-relaxed shadow-xs ${
+                      className={`max-w-[85%] rounded-2xl p-3.5 text-xs leading-relaxed shadow-sm ${
                         msg.sender === "user"
-                          ? "bg-emerald-700 text-white rounded-tr-xs"
-                          : "bg-white text-stone-800 border border-stone-200 rounded-tl-xs"
+                          ? "bg-emerald-700 text-white rounded-tr-none"
+                          : "bg-white text-stone-800 border border-stone-200 rounded-tl-none"
                       }`}
                     >
                       <p className="whitespace-pre-line">{msg.text}</p>
@@ -514,7 +527,7 @@ export const KisanAIAssistant = () => {
                 ))}
 
                 {loading && (
-                  <div className="flex items-center gap-2 text-xs text-stone-500 bg-white p-3 rounded-2xl border border-stone-200 w-fit shadow-xs">
+                  <div className="flex items-center gap-2 text-xs text-stone-500 bg-white p-3 rounded-2xl border border-stone-200 w-fit shadow-sm">
                     <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-600" />
                     <span>
                       {language === "hi"
@@ -604,7 +617,7 @@ export const KisanAIAssistant = () => {
           {/* TAB 2: AI PLANT DOCTOR DIAGNOSTIC MODE */}
           {activeTab === "doctor" && (
             <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-stone-50">
-              <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-xs space-y-3">
+              <div className="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm space-y-3">
                 <div className="flex items-center gap-2 text-rose-700 font-bold text-xs">
                   <Stethoscope className="w-4 h-4" />
                   <span>{language === "hi" ? "त्वरित रोग निदान केंद्र" : "Instant Crop Disease Diagnosis"}</span>

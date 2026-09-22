@@ -19,7 +19,12 @@ import {
   Building2,
   Ship,
   Sparkles,
-  BadgeCheck
+  BadgeCheck,
+  Bot,
+  Mic,
+  Stethoscope,
+  MessageSquare,
+  CloudRain
 } from "lucide-react";
 import { cropCatalogData } from "../../data/cropCatalogData";
 import { initialListings } from "../../data/sampleListingsData";
@@ -97,6 +102,23 @@ export const Home = () => {
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
               One unified digital infrastructure empowering Indian farmers with scientific crop advisory, transparent APMC mandi price discovery, and direct commercial contracts with institutional buyers and global exporters.
             </p>
+
+            {/* Flagship Kisan Mitra AI Hero Button */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+              <Link
+                to="/ai-assistant"
+                className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 hover:from-emerald-300 hover:to-teal-200 text-stone-950 font-black text-sm sm:text-base shadow-2xl shadow-emerald-500/30 transition-all hover:scale-105 flex items-center gap-3 group border border-emerald-300/80"
+              >
+                <div className="w-8 h-8 rounded-xl bg-stone-950 text-amber-300 flex items-center justify-center shrink-0 shadow-sm">
+                  <Bot className="w-5 h-5 animate-pulse" />
+                </div>
+                <span>Launch Kisan Mitra AI (किसान मित्र AI)</span>
+                <span className="px-2 py-0.5 rounded-md bg-stone-950 text-emerald-300 text-[10px] font-black uppercase tracking-wider hidden xs:inline">
+                  Voice & Vision
+                </span>
+                <ArrowRight className="w-4 h-4 text-stone-950 group-hover:translate-x-1.5 transition" />
+              </Link>
+            </div>
           </div>
 
           {/* Dual Action Gateways */}
@@ -190,7 +212,113 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* 2. FEATURED GLOBAL EXPORT DEMANDS (APEDA / DGFT SHOWCASE) */}
+      {/* 2. KISAN MITRA AI (FLAGSHIP AGRO-INTELLIGENCE SHOWCASE) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-br from-emerald-950 via-teal-950 to-stone-950 rounded-3xl p-6 sm:p-10 text-white shadow-2xl border border-emerald-700/40 relative overflow-hidden">
+          <div className="absolute right-0 top-0 -mt-16 -mr-16 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-emerald-800/40 pb-6">
+              <div className="space-y-2 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Flagship AI Agricultural Platform</span>
+                </div>
+                <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
+                  <Bot className="w-8 h-8 sm:w-10 sm:h-10 text-amber-300 shrink-0 animate-pulse" />
+                  <span>Meet Kisan Mitra AI (किसान मित्र AI)</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed">
+                  India's 1st Multimodal Voice & Agronomy AI Copilot. Speaks in Hindi, English, and regional languages. Delivers instant ICAR-verified chemical dosages, satellite weather spray safety advisories, and APMC market intelligence.
+                </p>
+              </div>
+
+              <div className="shrink-0 flex flex-col sm:flex-row gap-3">
+                <Link
+                  to="/ai-assistant"
+                  className="px-6 py-3.5 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 text-stone-950 font-black text-sm rounded-2xl shadow-lg shadow-emerald-500/20 hover:scale-105 transition flex items-center justify-center gap-2"
+                >
+                  <Bot className="w-5 h-5" />
+                  <span>Open Full AI Studio</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* 4 Feature Pillars Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-white/10 space-y-2 hover:border-emerald-500/40 transition">
+                <div className="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center">
+                  <Stethoscope className="w-5 h-5" />
+                </div>
+                <h3 className="font-bold text-sm text-white">AI Plant Doctor (रोग निदान)</h3>
+                <p className="text-xs text-stone-300 leading-relaxed">
+                  Diagnoses leaf curl, blights, flower drop, and caterpillars with exact chemical (Diafenthiuron, Planofix) and organic bio-solutions.
+                </p>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-white/10 space-y-2 hover:border-emerald-500/40 transition">
+                <div className="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center">
+                  <CloudRain className="w-5 h-5" />
+                </div>
+                <h3 className="font-bold text-sm text-white">Satellite Weather Radar</h3>
+                <p className="text-xs text-stone-300 leading-relaxed">
+                  Correlates foliar spraying safety with live satellite precipitation probability to save ₹1,200/acre in pesticide wash-off loss.
+                </p>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-white/10 space-y-2 hover:border-emerald-500/40 transition">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center">
+                  <Calculator className="w-5 h-5" />
+                </div>
+                <h3 className="font-bold text-sm text-white">62-Crop ICAR Database</h3>
+                <p className="text-xs text-stone-300 leading-relaxed">
+                  Curated seed rates, basal NPK bags (Urea, DAP, Potash), expected yields, and durations across 62+ Indian crops and vegetables.
+                </p>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-white/10 space-y-2 hover:border-emerald-500/40 transition">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5" />
+                </div>
+                <h3 className="font-bold text-sm text-white">APMC Real-Time Ticker</h3>
+                <p className="text-xs text-stone-300 leading-relaxed">
+                  Live streaming wholesale prices from Lasalgaon, Indore, and Rajkot mandis with actionable selling hold-vs-sell advisories.
+                </p>
+              </div>
+            </div>
+
+            {/* Quick Interactive Prompt Chips */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+              <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
+                <Sparkles className="w-4 h-4" />
+                <span>Try Asking Kisan Mitra AI (Click any prompt to start):</span>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "टमाटर में पत्ता मुड़ रहा है क्या करें?",
+                  "क्या आज कीटनाशक का छिड़काव करना सुरक्षित है?",
+                  "1 एकड़ गेहूं में यूरिया और DAP की सही मात्रा",
+                  "सोयाबीन और प्याज का आज का मंडी भाव",
+                  "तरबूज की वैज्ञानिक खेती कैसे करें?",
+                  "मिर्च में फूल गिर रहे हैं क्या दवा डालें?"
+                ].map((promptText, pIdx) => (
+                  <Link
+                    key={pIdx}
+                    to={`/ai-assistant?prompt=${encodeURIComponent(promptText)}`}
+                    className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-emerald-500 hover:text-stone-950 text-xs text-emerald-100 font-semibold transition border border-white/10 flex items-center gap-1.5 shadow-sm"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5 opacity-70" />
+                    <span>{promptText}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. FEATURED GLOBAL EXPORT DEMANDS (APEDA / DGFT SHOWCASE) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 border-b border-stone-200 pb-4">
           <div>
