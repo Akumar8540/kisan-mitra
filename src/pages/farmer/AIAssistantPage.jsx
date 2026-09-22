@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import { useAuth } from "../../context/AuthContext";
 import { aiService } from "../../services/aiService";
@@ -21,7 +22,10 @@ import {
   BookOpen,
   FlaskConical,
   CheckCircle2,
-  Info
+  Info,
+  ArrowRight,
+  Stethoscope,
+  Maximize2
 } from "lucide-react";
 
 export const AIAssistantPage = () => {
@@ -36,6 +40,12 @@ export const AIAssistantPage = () => {
   const [speechSupported, setSpeechSupported] = useState(false);
   const [weather, setWeather] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState("Nashik");
+
+  // Plant Doctor Quick Panel
+  const [showDoctorModal, setShowDoctorModal] = useState(false);
+  const [doctorCrop, setDoctorCrop] = useState("Tomato");
+  const [doctorSymptom, setDoctorSymptom] = useState("Leaf Curl (पत्ता मुड़ना)");
+  const [doctorDiagnosis, setDoctorDiagnosis] = useState(null);
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -91,7 +101,14 @@ export const AIAssistantPage = () => {
         sender: "ai",
         text: welcome,
         timestamp: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
-        source: "Kisan Mitra Intelligent Agronomy Engine"
+        source: "Kisan Mitra Intelligent Agronomy Engine",
+        quickChips: [
+          language === "hi" ? "टमाटर में पत्ता मुड़ना" : "Tomato leaf curl",
+          language === "hi" ? "क्या आज छिड़काव करें?" : "Safe to spray today?",
+          language === "hi" ? "1 एकड़ में खाद की मात्रा" : "Fertilizer per acre",
+          language === "hi" ? "सोयाबीन मंडी भाव" : "Soybean APMC rate",
+          language === "hi" ? "फसल कैटलॉग दिखाओ" : "Open crop catalog"
+        ]
       }
     ]);
   }, [language, selectedDistrict]);
@@ -125,7 +142,7 @@ export const AIAssistantPage = () => {
       return;
     }
     window.speechSynthesis.cancel();
-    const cleanText = text.replace(/[*#_`]/g, "").replace(/⚠️|✅|📊|💡|🧪|🌿|🌐|🌾|🐛|🏛️/g, "");
+    const cleanText = text.replace(/[*#_`]/g, "").replace(/⚠️|✅|📊|💡|🧪|🌿|🌐|🌾|🐛|🏛️|💧|🌸|🍂|🟡|🌱/g, "");
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = language === "hi" ? "hi-IN" : "en-IN";
     utterance.rate = 0.95;
@@ -167,7 +184,9 @@ export const AIAssistantPage = () => {
           sender: "ai",
           text: res.reply,
           source: res.source,
-          timestamp: res.timestamp
+          timestamp: res.timestamp,
+          navigationAction: res.navigationAction,
+          quickChips: res.quickChips
         }
       ]);
     } catch (err) {
@@ -185,20 +204,37 @@ export const AIAssistantPage = () => {
     }
   };
 
+  const handleDoctorDiagnose = () => {
+    const diag = aiService.diagnoseCropSymptom(doctorCrop, doctorSymptom, language);
+    setDoctorDiagnosis(diag);
+  };
+
+  const popularDoctorCrops = [
+    "Tomato", "Potato", "Chilli", "Cotton", "Soybean", "Onion", "Wheat", "Paddy", "Garlic", "Turmeric", "Watermelon", "Papaya", "Grapes"
+  ];
+
+  const popularSymptoms = [
+    "Leaf Curl (पत्ता मुड़ना)",
+    "Blight & Black Spots (झुलसा / काला धब्बा)",
+    "Flower & Fruit Drop (फूल-फल गिरना)",
+    "Yellow Leaves & Mosaic (पत्तियां पीली पड़ना)",
+    "Caterpillars & Borers (इल्ली / सुंडी)"
+  ];
+
   const quickChips =
     language === "hi"
       ? [
           { text: "क्या आज कीटनाशक छिड़कना सुरक्षित है?", icon: CloudRain },
           { text: "आज का सोयाबीन व प्याज का मंडी भाव क्या है?", icon: TrendingUp },
           { text: "1 एकड़ में यूरिया और DAP की मात्रा कितनी डालें?", icon: FlaskConical },
-          { text: "पीला मोज़ेक वायरस का तुरंत उपचार क्या है?", icon: Sprout },
+          { text: "टमाटर में पत्ता मुड़ रहा है क्या करें?", icon: Sprout },
           { text: "फसल एक्सपोर्ट (APEDA) के लिए क्या नियम हैं?", icon: ShieldCheck }
         ]
       : [
           { text: "Is it safe to spray chemical pesticides today?", icon: CloudRain },
           { text: "What are today's APMC mandi prices for Soybean?", icon: TrendingUp },
           { text: "What is the recommended fertilizer NPK dosage per acre?", icon: FlaskConical },
-          { text: "How to control Yellow Mosaic Virus in crops?", icon: Sprout },
+          { text: "Tomato leaf curl remedy and dosage?", icon: Sprout },
           { text: "What are APEDA agricultural export compliance rules?", icon: ShieldCheck }
         ];
 
@@ -213,7 +249,7 @@ export const AIAssistantPage = () => {
               Multimodal Voice AI Station
             </span>
             <span className="text-xs text-emerald-300">
-              Google Gemini & ICAR Grounded
+              Google Gemini & ICAR 62-Crop Grounded
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight flex items-center gap-2.5">
@@ -222,9 +258,19 @@ export const AIAssistantPage = () => {
           </h1>
           <p className="text-xs sm:text-sm text-stone-300 max-w-2xl">
             {language === "hi"
-              ? "अपनी आवाज़ में बोलकर या लिखकर पूछें। रियल-टाइम मौसम, मंडी भाव, खाद की संतुलित मात्रा और कीट नियंत्रण की वैज्ञानिक सलाह तुरंत प्राप्त करें।"
-              : "Ask questions by voice or text. Receive real-time meteorological advisories, live mandi price strategies, and ICAR-verified dosage protocols."}
+              ? "अपनी आवाज़ में बोलकर या लिखकर पूछें। रियल-टाइम मौसम, उपग्रह मृदा नमी, मंडी भाव, खाद की संतुलित मात्रा और 62+ फसलों की वैज्ञानिक सलाह तुरंत प्राप्त करें।"
+              : "Ask questions by voice or text. Receive real-time meteorological advisories, satellite soil moisture telemetry, live mandi rates, and ICAR dosage protocols across 62+ crops."}
           </p>
+
+          <div className="pt-2">
+            <button
+              onClick={() => setShowDoctorModal(true)}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-rose-600/90 hover:bg-rose-600 text-white text-xs font-bold shadow-md transition"
+            >
+              <Stethoscope className="w-4 h-4" />
+              <span>{language === "hi" ? "AI रोग निदान (Plant Doctor Tool)" : "Open AI Plant Doctor Tool"}</span>
+            </button>
+          </div>
         </div>
 
         {/* District Selector for Hyperlocal Grounding */}
@@ -246,7 +292,8 @@ export const AIAssistantPage = () => {
           {weather && (
             <div className="mt-2 text-[11px] text-stone-200 flex items-center justify-between gap-3">
               <span>Temp: <strong>{Math.round(weather.current.temperature)}°C</strong></span>
-              <span>Rain Prob: <strong>{weather.today.rainProbMax}%</strong></span>
+              <span>Rain: <strong>{weather.today.rainProbMax}%</strong></span>
+              <span>Soil: <strong>{weather.soil?.surfaceMoisturePct ?? 35}%</strong></span>
             </div>
           )}
         </div>
@@ -277,6 +324,34 @@ export const AIAssistantPage = () => {
                 }`}
               >
                 <div className="whitespace-pre-line prose-xs">{msg.text}</div>
+
+                {/* 1-Click Navigation Action Button */}
+                {msg.navigationAction && (
+                  <div className="mt-3 pt-2.5 border-t border-stone-100">
+                    <Link
+                      to={msg.navigationAction.path}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm transition"
+                    >
+                      <span>{msg.navigationAction.label}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                )}
+
+                {/* Dynamic Quick Chips */}
+                {msg.quickChips && msg.quickChips.length > 0 && (
+                  <div className="mt-3 pt-2 border-t border-stone-100 flex flex-wrap gap-1.5">
+                    {msg.quickChips.map((chip, cIdx) => (
+                      <button
+                        key={cIdx}
+                        onClick={() => handleSend(chip)}
+                        className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-semibold transition border border-emerald-200"
+                      >
+                        {chip}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 <div
                   className={`mt-3 pt-2 border-t flex flex-wrap items-center justify-between gap-2 text-[11px] ${
@@ -401,7 +476,7 @@ export const AIAssistantPage = () => {
               onChange={(e) => setInputPrompt(e.target.value)}
               placeholder={
                 language === "hi"
-                  ? "माइक दबाकर बोलें या लिखें (उदा. सोयाबीन में कौनसी खाद डालें, आज का मंडी भाव)..."
+                  ? "माइक दबाकर बोलें या लिखें (उदा. टमाटर में पत्ता मुड़ना, खाद की मात्रा, आज का भाव)..."
                   : "Tap mic to speak or type your agricultural question..."
               }
               className="flex-1 bg-stone-100 border-none rounded-2xl px-4 py-3 text-xs sm:text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-600"
@@ -418,6 +493,120 @@ export const AIAssistantPage = () => {
           </form>
         </div>
       </div>
+
+      {/* AI Plant Doctor Modal */}
+      {showDoctorModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-stone-200 space-y-4 max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+              <div className="flex items-center gap-2.5 text-rose-700">
+                <Stethoscope className="w-6 h-6" />
+                <h3 className="text-lg font-bold text-stone-900">
+                  {language === "hi" ? "AI प्लांट डॉक्टर (सटीक रोग निदान)" : "AI Plant Doctor Diagnostic Desk"}
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowDoctorModal(false)}
+                className="p-1.5 rounded-xl hover:bg-stone-100 text-stone-400 hover:text-stone-700"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {language === "hi" ? "प्रभावित फसल चुनें" : "Select Affected Crop"}
+                </label>
+                <select
+                  value={doctorCrop}
+                  onChange={(e) => setDoctorCrop(e.target.value)}
+                  className="w-full text-xs font-medium px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50"
+                >
+                  {popularDoctorCrops.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  {language === "hi" ? "दिखने वाला लक्षण चुनें" : "Select Observed Symptom"}
+                </label>
+                <select
+                  value={doctorSymptom}
+                  onChange={(e) => setDoctorSymptom(e.target.value)}
+                  className="w-full text-xs font-medium px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50"
+                >
+                  {popularSymptoms.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={handleDoctorDiagnose}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-700 hover:to-rose-800 text-white text-xs font-bold shadow-md shadow-rose-700/20 transition flex items-center justify-center gap-2"
+              >
+                <Stethoscope className="w-4 h-4" />
+                <span>{language === "hi" ? "क्लिनिकल प्रिस्क्रिप्शन बनाएं" : "Generate Clinical Prescription"}</span>
+              </button>
+
+              {doctorDiagnosis && (
+                <div className="bg-stone-50 p-4 rounded-2xl border border-rose-200 space-y-3 mt-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-bold text-stone-900 text-sm">{doctorDiagnosis.diseaseName}</h4>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800">
+                      {doctorDiagnosis.severity} Severity
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-xs">
+                    <div className="p-3 rounded-xl bg-blue-50 border border-blue-100">
+                      <p className="font-bold text-blue-900 text-xs mb-1">
+                        🧪 {language === "hi" ? "रासायनिक दवा एवं सही मात्रा" : "Chemical Spray Remedy"}
+                      </p>
+                      <p className="text-blue-800 leading-relaxed">{doctorDiagnosis.chemicalRemedy}</p>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100">
+                      <p className="font-bold text-emerald-900 text-xs mb-1">
+                        🌱 {language === "hi" ? "जैविक एवं प्राकृतिक विकल्प" : "Bio-Organic Alternative"}
+                      </p>
+                      <p className="text-emerald-800 leading-relaxed">{doctorDiagnosis.bioRemedy}</p>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-amber-50 border border-amber-100">
+                      <p className="font-bold text-amber-900 text-xs mb-1">
+                        🛡️ {language === "hi" ? "भविष्य के लिए रोकथाम" : "Preventative Cultural Action"}
+                      </p>
+                      <p className="text-amber-800 leading-relaxed">{doctorDiagnosis.preventiveAction}</p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setShowDoctorModal(false);
+                      handleSend(
+                        language === "hi"
+                          ? `${doctorCrop} में ${doctorSymptom} का विस्तृत उपचार बताएं`
+                          : `Provide full treatment for ${doctorSymptom} in ${doctorCrop}`
+                      );
+                    }}
+                    className="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition text-center"
+                  >
+                    {language === "hi" ? "इस समस्या को AI चैट में पूछें →" : "Send to AI Chat →"}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

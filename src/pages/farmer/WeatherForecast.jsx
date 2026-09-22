@@ -381,6 +381,108 @@ export const WeatherForecast = () => {
             </div>
           </div>
 
+          {/* Satellite Soil Telemetry & FAO-56 Precision Irrigation Card */}
+          {weatherData.soil && (
+            <div className="bg-gradient-to-br from-teal-950 via-emerald-950 to-stone-900 rounded-3xl p-6 sm:p-7 text-white shadow-xl border border-emerald-800/40 relative overflow-hidden">
+              <div className="absolute right-0 bottom-0 -mb-12 -mr-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-800/40 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
+                      <Droplets className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-base sm:text-lg font-black tracking-tight flex items-center gap-2">
+                        <span>Satellite Soil Moisture & Precision Irrigation Telemetry</span>
+                        <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                          FAO-56 Standard
+                        </span>
+                      </h3>
+                      <p className="text-xs text-emerald-200/70 mt-0.5">
+                        Real-time microwave remote sensing of topsoil, root-zone moisture, and crop evapotranspiration loss.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="shrink-0">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold border ${weatherData.soil.badgeStyle}`}>
+                      {weatherData.soil.status}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4 Metrics Telemetry Grid */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 space-y-1">
+                    <div className="flex items-center justify-between text-xs text-stone-300">
+                      <span>Topsoil Moisture (0-1cm)</span>
+                      <Droplets className="w-4 h-4 text-sky-400" />
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-black text-white">
+                      {weatherData.soil.surfaceMoisturePct}%
+                    </div>
+                    <p className="text-[11px] text-emerald-300 font-medium">Volumetric Water Content</p>
+                  </div>
+
+                  <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 space-y-1">
+                    <div className="flex items-center justify-between text-xs text-stone-300">
+                      <span>Root Zone Moisture (3-9cm)</span>
+                      <Sprout className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-black text-white">
+                      {weatherData.soil.rootZoneMoisturePct}%
+                    </div>
+                    <p className="text-[11px] text-emerald-300 font-medium">Active root absorption zone</p>
+                  </div>
+
+                  <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 space-y-1">
+                    <div className="flex items-center justify-between text-xs text-stone-300">
+                      <span>Evapotranspiration (ET0)</span>
+                      <Sun className="w-4 h-4 text-amber-400" />
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-black text-white">
+                      {weatherData.soil.et0Mm} <span className="text-sm font-normal text-stone-400">mm/day</span>
+                    </div>
+                    <p className="text-[11px] text-amber-300 font-medium">Atmospheric moisture demand</p>
+                  </div>
+
+                  <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 space-y-1">
+                    <div className="flex items-center justify-between text-xs text-stone-300">
+                      <span>Soil Temperature (0cm)</span>
+                      <Thermometer className="w-4 h-4 text-rose-400" />
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-black text-white">
+                      {weatherData.soil.soilTemperature}°<span className="text-sm font-normal text-stone-400">C</span>
+                    </div>
+                    <p className="text-[11px] text-stone-300 font-medium">Seedbed microbial activity</p>
+                  </div>
+                </div>
+
+                {/* Precision Irrigation Action Banner */}
+                <div className="bg-emerald-900/60 border border-emerald-700/50 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="text-xs font-bold text-emerald-200 uppercase tracking-wider flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <span>Today's Precision Irrigation Prescription (1 Acre)</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-white leading-relaxed">
+                      Run drip irrigation for <strong>~{weatherData.soil.dripHoursRequired} hours</strong> (approx <strong>{weatherData.soil.irrigationDemandLitersPerAcre.toLocaleString()} Liters</strong>) to replenish water loss without waterlogging.
+                    </p>
+                  </div>
+
+                  <Link
+                    to="/farmer/input-calculator"
+                    className="shrink-0 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 text-xs font-black transition flex items-center gap-1.5 shadow-md"
+                  >
+                    <span>Input Calculator</span>
+                    <Compass className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* 7-Day Daily Weather & Rain Forecast Cards */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">

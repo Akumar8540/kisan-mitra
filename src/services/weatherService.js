@@ -158,7 +158,7 @@ export const weatherService = {
   // Fetch real-time weather and 7-day rain forecast
   getLiveForecast: async (lat, lon, districtName = "Nashik") => {
     try {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,precipitation_probability,precipitation,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&timezone=auto`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,soil_temperature_0cm,soil_moisture_0_to_1cm,soil_moisture_3_to_9cm,et0_fao_evapotranspiration&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,et0_fao_evapotranspiration&timezone=auto`;
       
       const res = await fetch(url);
       if (!res.ok) throw new Error(`Weather API error: ${res.status}`);
@@ -176,6 +176,38 @@ export const weatherService = {
         time: data.current.time
       };
 
+      // Satellite Soil Telemetry & Evapotranspiration
+      const currentHourIndex = new Date().getHours();
+      const currentSoilMoisture0_1 = data.hourly?.soil_moisture_0_to_1cm?.[currentHourIndex] ?? 0.35;
+      const currentSoilMoisture3_9 = data.hourly?.soil_moisture_3_to_9cm?.[currentHourIndex] ?? 0.38;
+      const currentSoilTemp = Math.round(data.hourly?.soil_temperature_0cm?.[currentHourIndex] ?? 26);
+      const todayET0 = Number((data.daily?.et0_fao_evapotranspiration?.[0] ?? 4.2).toFixed(1));
+
+      // Precision Irrigation Requirement (FAO-56 ICAR equation: Liters/acre = ET0 mm * 4046.86 m² * 0.85 crop coefficient)
+      const estimatedLitersPerAcre = Math.round(todayET0 * 4046.86 * 0.85);
+      const dripRunHours = (estimatedLitersPerAcre / 8000).toFixed(1); // Standard 8,000 L/hr drip discharge per acre
+
+      let soilStatus = "Optimal Moisture";
+      let soilBadge = "text-emerald-700 bg-emerald-50 border-emerald-200";
+      if (currentSoilMoisture0_1 > 0.46) {
+        soilStatus = "Saturated / Waterlogged Risk";
+        soilBadge = "text-blue-700 bg-blue-50 border-blue-200";
+      } else if (currentSoilMoisture0_1 < 0.22) {
+        soilStatus = "Moisture Deficit (Dry Soil)";
+        soilBadge = "text-amber-700 bg-amber-50 border-amber-200";
+      }
+
+      const soil = {
+        surfaceMoisturePct: Math.round(currentSoilMoisture0_1 * 100),
+        rootZoneMoisturePct: Math.round(currentSoilMoisture3_9 * 100),
+        soilTemperature: currentSoilTemp,
+        status: soilStatus,
+        badgeStyle: soilBadge,
+        et0Mm: todayET0,
+        irrigationDemandLitersPerAcre: estimatedLitersPerAcre,
+        dripHoursRequired: dripRunHours
+      };
+
       // Today's summary
       const todayRainProb = data.daily.precipitation_probability_max[0] || 0;
       const todayRainMm = data.daily.precipitation_sum[0] || 0;
@@ -183,7 +215,6 @@ export const weatherService = {
       const todayMinTemp = Math.round(data.daily.temperature_2m_min[0]);
 
       // Hourly Forecast (Next 24 Hours)
-      const currentHourIndex = new Date().getHours();
       const hourly = [];
       for (let i = currentHourIndex; i < currentHourIndex + 24 && i < data.hourly.time.length; i++) {
         const timeStr = data.hourly.time[i];
@@ -194,6 +225,7 @@ export const weatherService = {
           temp: Math.round(data.hourly.temperature_2m[i]),
           rainProb: data.hourly.precipitation_probability[i],
           rainMm: Number(data.hourly.precipitation[i].toFixed(1)),
+          soilMoisturePct: Math.round((data.hourly.soil_moisture_0_to_1cm?.[i] ?? 0.35) * 100),
           weatherCode: data.hourly.weather_code[i]
         });
       }
@@ -212,6 +244,7 @@ export const weatherService = {
           rainProb: data.daily.precipitation_probability_max[idx] || 0,
           rainMm: Number((data.daily.precipitation_sum[idx] || 0).toFixed(1)),
           windMax: Math.round(data.daily.wind_speed_10m_max[idx] || 0),
+          et0: Number((data.daily.et0_fao_evapotranspiration?.[idx] || 4.0).toFixed(1)),
           condition: getWeatherCondition(code)
         };
       });
@@ -219,17 +252,30 @@ export const weatherService = {
       // Agro Advisories
       const advisories = generateAgroAdvisory(current, todayRainProb, todayRainMm);
 
+      // Add Satellite Soil & Precision Irrigation Advisory
+      if (todayRainMm < 2.0 && soil.surfaceMoisturePct < 30) {
+        advisories.unshift({
+          type: "action",
+          category: "Satellite Soil & ET0 Irrigation",
+          badge: "FAO-56 Recommendation",
+          title: `Replenish Evapotranspiration: ${soil.irrigationDemandLitersPerAcre.toLocaleString()} L/Acre Needed`,
+          advice: `Surface soil moisture is ${soil.surfaceMoisturePct}% with ${todayET0} mm/day atmospheric water loss. Operate drip irrigation for ~${dripRunHours} hours today (preferably early morning or post 5:00 PM).`
+        });
+      }
+
       return {
         success: true,
         district: districtName,
         lat,
         lon,
         current,
+        soil,
         today: {
           maxTemp: todayMaxTemp,
           minTemp: todayMinTemp,
           rainProb: todayRainProb,
-          rainMm: todayRainMm
+          rainMm: todayRainMm,
+          et0: todayET0
         },
         hourly,
         daily,
