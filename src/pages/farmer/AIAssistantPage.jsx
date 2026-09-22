@@ -70,10 +70,15 @@ export const AIAssistantPage = () => {
       recognitionRef.current = recognition;
     }
 
-    // Load weather
-    weatherService.getWeatherData(selectedDistrict).then((data) => {
-      setWeather(data);
-    }).catch(console.warn);
+    // Load weather safely
+    if (weatherService && typeof weatherService.getWeatherData === "function") {
+      weatherService
+        .getWeatherData(selectedDistrict)
+        .then((data) => {
+          if (data) setWeather(data);
+        })
+        .catch((err) => console.warn("Weather load notice:", err));
+    }
 
     // Initial Message
     const welcome =

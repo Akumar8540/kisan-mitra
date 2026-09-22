@@ -78,13 +78,15 @@ export const KisanAIAssistant = () => {
       recognitionRef.current = recognition;
     }
 
-    // Load initial district weather for context
-    weatherService
-      .getWeatherData("Nashik")
-      .then((wData) => {
-        setContextData((prev) => ({ ...prev, weather: wData }));
-      })
-      .catch((e) => console.warn(e));
+    // Load initial district weather for context safely
+    if (weatherService && typeof weatherService.getWeatherData === "function") {
+      weatherService
+        .getWeatherData("Nashik")
+        .then((wData) => {
+          if (wData) setContextData((prev) => ({ ...prev, weather: wData }));
+        })
+        .catch((e) => console.warn("Weather context notice:", e));
+    }
 
     // Welcome message
     const welcome =

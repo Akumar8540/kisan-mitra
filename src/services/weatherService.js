@@ -116,6 +116,45 @@ export const generateAgroAdvisory = (current, todayRainProb, expectedRainMm) => 
 };
 
 export const weatherService = {
+  // Convenient district-based weather fetcher
+  getWeatherData: async (districtNameOrId = "Nashik") => {
+    let dist = AGRICULTURAL_DISTRICTS.find(
+      (d) =>
+        d.id.toLowerCase() === (districtNameOrId || "").toLowerCase() ||
+        d.name.toLowerCase().includes((districtNameOrId || "").toLowerCase())
+    );
+    if (!dist) dist = AGRICULTURAL_DISTRICTS[0];
+
+    const data = await weatherService.getLiveForecast(dist.lat, dist.lon, dist.name);
+
+    return {
+      ...data,
+      location: {
+        district: data.district,
+        state: dist.state,
+        latitude: dist.lat,
+        longitude: dist.lon
+      },
+      current: {
+        ...data.current,
+        apparentTemperature: data.current.feelsLike,
+        relativeHumidity: data.current.humidity,
+        precipitation: data.current.precipitationMm,
+        condition:
+          typeof data.current.condition === "object"
+            ? data.current.condition.label
+            : data.current.condition
+      },
+      today: {
+        ...data.today,
+        tempMax: data.today.maxTemp,
+        tempMin: data.today.minTemp,
+        rainProbMax: data.today.rainProb,
+        rainSum: data.today.rainMm
+      }
+    };
+  },
+
   // Fetch real-time weather and 7-day rain forecast
   getLiveForecast: async (lat, lon, districtName = "Nashik") => {
     try {
