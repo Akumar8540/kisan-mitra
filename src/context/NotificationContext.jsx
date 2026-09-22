@@ -22,7 +22,7 @@ export const NotificationProvider = ({ children }) => {
   }, []);
 
   return (
-    <NotificationContext.Provider value={{ addToast, removeToast }}>
+    <NotificationContext.Provider value={{ addToast, removeToast, notify: addToast }}>
       {children}
       {/* Fixed Toast Container */}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 max-w-md w-full px-4 pointer-events-none">

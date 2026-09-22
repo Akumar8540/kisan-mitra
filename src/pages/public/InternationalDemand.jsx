@@ -1,5 +1,4 @@
-import React, { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useMemo, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
 import {
@@ -8,38 +7,21 @@ import {
 } from "../../data/internationalDemandData";
 import {
   Globe,
-  Ship,
   FileCheck,
-  Award,
   TrendingUp,
-  DollarSign,
-  Package,
   ShieldCheck,
   Search,
-  Filter,
   CheckCircle2,
-  ExternalLink,
   ChevronRight,
-  Info,
-  Building2,
-  Calendar,
-  Layers,
-  ArrowUpRight,
   X,
-  FileText,
   BadgeCheck,
   Send,
-  HelpCircle,
-  Clock,
-  Briefcase,
   SlidersHorizontal,
-  Anchor,
-  Sparkles,
-  ArrowRight
+  Anchor
 } from "lucide-react";
 
 export const InternationalDemand = () => {
-  const { role, currentUser } = useAuth();
+  const { currentUser } = useAuth();
   const { notify } = useNotification();
 
   const [searchQuery, setSearchQuery] = useState("");

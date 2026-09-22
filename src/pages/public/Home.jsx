@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Sprout,
   Store,
@@ -33,6 +33,7 @@ import { CropCard } from "../../components/cards/CropCard";
 import { ListingCard } from "../../components/cards/ListingCard";
 
 export const Home = () => {
+  const navigate = useNavigate();
   const featuredCrops = cropCatalogData.slice(0, 3);
   const featuredListings = initialListings.slice(0, 3);
   const featuredExports = internationalDemandData.slice(0, 3);
@@ -337,7 +338,7 @@ export const Home = () => {
           </div>
           <Link
             to="/international-demand"
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition shrink-0 shadow-xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition shrink-0 shadow-sm"
           >
             <span>Explore All 14 Global Leads</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -348,7 +349,7 @@ export const Home = () => {
           {featuredExports.map((lead) => (
             <div
               key={lead.id}
-              className="bg-white rounded-3xl border border-stone-200 shadow-xs hover:shadow-md hover:border-emerald-300 transition flex flex-col justify-between overflow-hidden"
+              className="bg-white rounded-3xl border border-stone-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition flex flex-col justify-between overflow-hidden"
             >
               <div className="p-5 space-y-3">
                 <div className="flex items-center justify-between">
@@ -467,7 +468,7 @@ export const Home = () => {
             to="/crops"
             className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 hover:text-emerald-900"
           >
-            <span>View All 15+ Crops</span>
+            <span>View All 62 Crops (62 फसलें)</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -507,8 +508,8 @@ export const Home = () => {
             <ListingCard
               key={listing.id}
               listing={listing}
-              onInquire={() => window.location.href = `/marketplace?inquire=${listing.id}`}
-              onViewDetails={() => window.location.href = `/marketplace?view=${listing.id}`}
+              onInquire={() => navigate(`/marketplace?inquire=${listing.id}`)}
+              onViewDetails={() => navigate(`/marketplace?view=${listing.id}`)}
             />
           ))}
         </div>

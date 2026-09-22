@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import { useAuth } from "../../context/AuthContext";
 import { aiService } from "../../services/aiService";
 import { weatherService } from "../../services/weatherService";
-import { marketService } from "../../services/marketService";
 import {
   Bot,
   Mic,
@@ -19,29 +18,25 @@ import {
   Sprout,
   TrendingUp,
   CloudRain,
-  BookOpen,
   FlaskConical,
-  CheckCircle2,
-  Info,
   ArrowRight,
-  Stethoscope,
-  Maximize2
+  Stethoscope
 } from "lucide-react";
 
 export const AIAssistantPage = () => {
-  const { language, t } = useLanguage();
-  const { currentUser, role } = useAuth();
+  const { language } = useLanguage();
+  const { currentUser: _user } = useAuth();
 
   const [messages, setMessages] = useState([]);
   const [inputPrompt, setInputPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
   const [speechSupported, setSpeechSupported] = useState(false);
-  const [weather, setWeather] = useState(null);
+  const [speakingMessageIndex, setSpeakingMessageIndex] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState("Nashik");
+  const [weather, setWeather] = useState(null);
 
-  // Plant Doctor Quick Panel
+  // Plant Doctor symptom diagnosis modal state
   const [showDoctorModal, setShowDoctorModal] = useState(false);
   const [doctorCrop, setDoctorCrop] = useState("Tomato");
   const [doctorSymptom, setDoctorSymptom] = useState("Leaf Curl (पत्ता मुड़ना)");
@@ -57,13 +52,65 @@ export const AIAssistantPage = () => {
   const [searchParams] = useSearchParams();
   const initialPromptHandled = useRef(false);
 
+  const handleSend = useCallback(async (queryToSend) => {
+    const q = queryToSend || inputPrompt;
+    if (!q?.trim() || loading) return;
+
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+    }
+
+    const userMsg = {
+      sender: "user",
+      text: q,
+      timestamp: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
+    };
+
+    setMessages((prev) => [...prev, userMsg]);
+    setInputPrompt("");
+    setLoading(true);
+
+    try {
+      const context = {
+        district: selectedDistrict,
+        crop: "Soybean",
+        weather: weather
+      };
+      const res = await aiService.askKisanAI(q, context, language);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: res.reply,
+          source: res.source,
+          timestamp: res.timestamp,
+          navigationAction: res.navigationAction,
+          quickChips: res.quickChips
+        }
+      ]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: "Sorry, could not process query. Please retry.",
+          source: "System",
+          timestamp: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  }, [inputPrompt, loading, isListening, selectedDistrict, weather, language]);
+
   useEffect(() => {
     const q = searchParams.get("prompt");
     if (q && q.trim() && !initialPromptHandled.current) {
       initialPromptHandled.current = true;
       handleSend(q);
     }
-  }, [searchParams]);
+  }, [searchParams, handleSend]);
 
   useEffect(() => {
     // Check Web Speech Recognition
@@ -162,57 +209,6 @@ export const AIAssistantPage = () => {
     window.speechSynthesis.speak(utterance);
   };
 
-  const handleSend = async (queryToSend) => {
-    const q = queryToSend || inputPrompt;
-    if (!q.trim() || loading) return;
-
-    if (isListening) {
-      recognitionRef.current?.stop();
-      setIsListening(false);
-    }
-
-    const userMsg = {
-      sender: "user",
-      text: q,
-      timestamp: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
-    };
-
-    setMessages((prev) => [...prev, userMsg]);
-    setInputPrompt("");
-    setLoading(true);
-
-    try {
-      const context = {
-        district: selectedDistrict,
-        crop: "Soybean",
-        weather: weather
-      };
-      const res = await aiService.askKisanAI(q, context, language);
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "ai",
-          text: res.reply,
-          source: res.source,
-          timestamp: res.timestamp,
-          navigationAction: res.navigationAction,
-          quickChips: res.quickChips
-        }
-      ]);
-    } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "ai",
-          text: "Sorry, could not process query. Please retry.",
-          source: "System",
-          timestamp: new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
-        }
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleDoctorDiagnose = () => {
     const diag = aiService.diagnoseCropSymptom(doctorCrop, doctorSymptom, language);

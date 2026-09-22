@@ -51,7 +51,7 @@ export const CropDetail = () => {
       <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap">
-            {crop.seasons.map((s) => (
+            {crop.seasons?.map((s) => (
               <span
                 key={s}
                 className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200"
@@ -153,11 +153,11 @@ export const CropDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-stone-700">
           <div className="p-4 bg-stone-50 rounded-xl space-y-1">
             <p className="font-bold text-stone-900">Compatible Soils:</p>
-            <p>{crop.soilTypes.join(", ")}</p>
+            <p>{crop.soilTypes?.join(", ") || "Loamy, Alluvial, Black"}</p>
           </div>
           <div className="p-4 bg-stone-50 rounded-xl space-y-1">
             <p className="font-bold text-stone-900">Irrigation Regimes:</p>
-            <p>{crop.irrigationNeeded.join(", ")}</p>
+            <p>{crop.irrigationNeeded?.join(", ") || "Partially Irrigated / Drip"}</p>
           </div>
         </div>
       </div>
@@ -170,20 +170,20 @@ export const CropDetail = () => {
         </h3>
         <div className="grid grid-cols-3 gap-4 text-center">
           <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-            <p className="text-2xl font-black text-emerald-800">{crop.nutrientGuidance?.n} kg</p>
+            <p className="text-2xl font-black text-emerald-800">{crop.nutrientGuidance?.n ?? 20} kg</p>
             <p className="text-xs font-bold text-emerald-950 uppercase mt-1">Nitrogen (N)</p>
           </div>
           <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-            <p className="text-2xl font-black text-emerald-800">{crop.nutrientGuidance?.p} kg</p>
+            <p className="text-2xl font-black text-emerald-800">{crop.nutrientGuidance?.p ?? 20} kg</p>
             <p className="text-xs font-bold text-emerald-950 uppercase mt-1">Phosphorus (P)</p>
           </div>
           <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-            <p className="text-2xl font-black text-emerald-800">{crop.nutrientGuidance?.k} kg</p>
+            <p className="text-2xl font-black text-emerald-800">{crop.nutrientGuidance?.k ?? 20} kg</p>
             <p className="text-xs font-bold text-emerald-950 uppercase mt-1">Potassium (K)</p>
           </div>
         </div>
         <p className="text-xs sm:text-sm text-stone-600 bg-stone-50 p-4 rounded-xl leading-relaxed">
-          <strong>Application Protocol:</strong> {crop.nutrientGuidance?.applicationStage}
+          <strong>Application Protocol:</strong> {crop.nutrientGuidance?.applicationStage || "Apply full P, K and 1/3 N as basal at sowing; remaining N in split doses."}
         </p>
       </div>
 
@@ -194,7 +194,7 @@ export const CropDetail = () => {
           <span>Cultivation Considerations & Disease Alerts</span>
         </h3>
         <ul className="space-y-2 text-xs sm:text-sm text-amber-900">
-          {crop.commonWarnings.map((warn, i) => (
+          {(crop.commonWarnings || ["Monitor for early pest infestations and ensure field drainage."]).map((warn, i) => (
             <li key={i} className="flex items-start gap-2">
               <span className="text-amber-700 font-bold">•</span>
               <span>{warn}</span>
