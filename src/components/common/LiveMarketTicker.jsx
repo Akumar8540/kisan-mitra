@@ -25,7 +25,10 @@ export const LiveMarketTicker = () => {
   if (!tickerItems.length) return null;
 
   return (
-    <div className="bg-stone-950 text-stone-200 border-b border-stone-800 text-[11px] py-1.5 px-3 overflow-hidden flex items-center shadow-inner select-none">
+    <div
+      translate="no"
+      className="notranslate bg-stone-950 text-stone-200 border-b border-stone-800 text-[11px] py-1.5 px-3 overflow-hidden flex items-center shadow-inner select-none"
+    >
       {/* Live Badge */}
       <div className="flex items-center gap-1.5 bg-emerald-950 text-emerald-300 border border-emerald-800/80 px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider shrink-0 mr-3 shadow-xs">
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
@@ -40,7 +43,7 @@ export const LiveMarketTicker = () => {
 
           return (
             <div
-              key={idx}
+              key={item.crop + item.mandi + idx}
               className={`flex items-center gap-2 whitespace-nowrap px-2 py-0.5 rounded transition-all duration-300 ${
                 isJustTicked
                   ? isUp
@@ -64,7 +67,7 @@ export const LiveMarketTicker = () => {
                 ) : (
                   <ArrowDownRight className="w-3 h-3" />
                 )}
-                {item.changePct}
+                <span>{item.changePct}</span>
               </span>
             </div>
           );
